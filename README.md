@@ -1,1 +1,1 @@
-Welcome to the Freelancers' Collaboration Repository! This space is designed to be a one-stop hub for all project-related resources, guidelines, and communication channels. It aims to foster efficient collaboration, ensure consistency, and provide easy access to essential materials.
+Welcome to the Freelancers' Collaboration Repository! This space is designed to be a one-stop hub for all project-related.
