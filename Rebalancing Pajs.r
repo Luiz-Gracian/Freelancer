@@ -8,9 +8,6 @@ library(pacman)
 # Carregar pacotes necessários com pacman
 p_load(readxl, openxlsx)
 
-
-##########################################################################################
-
 ##########################            ALTERAR           ##################################
 
 setwd("C:") #Diretório
@@ -118,7 +115,6 @@ colnames(resultados) <- paste("Amostra", 1:n_amostra, sep = "_")
 
 
 resultados_unicos <- resultados[, !duplicated(as.list(resultados))]
-
 
 # Exportando para um arquivo Excel
 
