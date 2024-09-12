@@ -11,8 +11,8 @@ library(writexl)
 
 
 
-db <- "dbpro_11323_sisdpu"  #provide the name of your db
-host_db <- "10.0.2.239"
+db <- ""  #provide the name of your db
+host_db <- "" # host 10.0.2.239
 db_port <- "5432"  # or any other port specified by the DBA
 db_user <- "postgres"
 db_password <- " "
