@@ -1,21 +1,27 @@
-##1.Conexao ao BD
-#install.packages("RPostgres")
+
+
+##1.Conexao ao BD - Checagem usuário, não funciona, apenas para exemplo.
+
+
 #carregar libraries usadas
+
 library(RPostgres)
 library(DBI)
 library(writexl)
 
-#setwd("C:/Users/karla.ferreira/Documents/Karla 2021/Demandas julho/Trimestral 2")
+
 
 db <- "dbpro_11323_sisdpu"  #provide the name of your db
 host_db <- "10.0.2.239"
 db_port <- "5432"  # or any other port specified by the DBA
 db_user <- "postgres"
 db_password <- " "
+
 con <- dbConnect(RPostgres::Postgres(), dbname = db, host=host_db, port=db_port, user=db_user, password=db_password)
+
 dbListTables(con) #saber se funcionou a conexao
 
-#1.PAJs com pretens�o e of�cio atual
+#1.PAJs com pretensão e ofício atual
 q_pretensao <- "SELECT 	distinct EXTRACT (MONTH FROM rlpm.dh_movimentacao) as mes,
   EXTRACT (YEAR FROM rlpm.dh_movimentacao) as ano, u.no_unidade||''||oat.no_oficio as concat,
   o.co_seq_oficio as cod_orig, o.no_oficio AS oficio_original, o.st_ativo as ativo,
@@ -32,24 +38,24 @@ q_pretensao <- "SELECT 	distinct EXTRACT (MONTH FROM rlpm.dh_movimentacao) as me
   when p1.co_seq_pretensao in (2,3,4,7,11,12,13,14,15,16,18,19,21,22,23,24,25,26,28,29,30,33,34,36,37,38,39,40,41,42,43,44,45,47,48,49,50,51,55,57,60,65,66,89,90,91,92,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,
 110,111,112,113,114,115,125,163,164,165,166,167,169,170,171,172,173,174,175,176,177,178,179,180,181,182,183,184,185,187,188,189,190,191,192,194,195,197,199,200,202,203,204,214,215,217,226,227,
 228,229,230,231,232,233,234,235,236,237,238,239,240,241,242,243,244,245,246,247,248,249,250,251,252,253,254,255,256,257,258,259,260,261,262,263,264,265,266,267,268,269,270,271,272,273,274,275,
-276,277,278,279,280,281,282,283,284,285,286,287,288,289,290,291,292,293,294,295,296,297,298,329,331) then 'C�vel' 
+276,277,278,279,280,281,282,283,284,285,286,287,288,289,290,291,292,293,294,295,296,297,298,329,331) then 'Cível' 
   when p1.co_seq_pretensao in (20,52,53,54,58,59,61,63,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,94,126,129,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,150,151,152,153,
 154,155,156,157,158,159,160,161,162,186,216,299,300,301,302,303,304,305,306,307,308,309,310,314,315,316,326,328) then 'Criminal'
   when p1.co_seq_pretensao = 68 then 'Eleitoral'
-  when p1.co_seq_pretensao = 70 then 'Mat�ria Estadual'
-  when p1.co_seq_pretensao in (5,6,8,9,10,17,27,31,32,67,116,117,118,119,120,121,122,123,124,193,196,198,201,205,206,207,208,209,210,211,212,213,218,311,312,313,317,318,319,320,321,322,323,324,325) then  'Previdenci�rio'
+  when p1.co_seq_pretensao = 70 then 'Matéria Estadual'
+  when p1.co_seq_pretensao in (5,6,8,9,10,17,27,31,32,67,116,117,118,119,120,121,122,123,124,193,196,198,201,205,206,207,208,209,210,211,212,213,218,311,312,313,317,318,319,320,321,322,323,324,325) then  'Previdenciário'
   when p1.co_seq_pretensao in (35,69,93,127,128,130,131,132,133,134) then 'Trabalhista'
   when p1.co_seq_pretensao in (64,88,168) then 'Tutela Coletiva'
-  when p1.co_seq_pretensao in (1,46) then 'N�o Cadastrada'
+  when p1.co_seq_pretensao in (1,46) then 'Não Cadastrada'
   when p1.co_seq_pretensao in (56,62,327,330) then 'Outra Pretensao'
   end as Materia,
   
   case 
   when upper(oat.no_oficio) similar to '%GERAL%' then 'Geral'
   
-  when upper(oat.no_oficio) similar to '%C�VEL%' and
+  when upper(oat.no_oficio) similar to '%CÍVEL%' and
   upper(oat.no_oficio) similar to '%RESIDUAL%' and
-  upper(oat.no_oficio) similar to '%PREVIDENCI�RIO%' then 'C�vel'
+  upper(oat.no_oficio) similar to '%PREVIDENCIÁRIO%' then 'Cível'
   
   
   when upper(oat.no_oficio) similar to '%CRIMINAL MILITAR%' and
@@ -57,21 +63,21 @@ q_pretensao <- "SELECT 	distinct EXTRACT (MONTH FROM rlpm.dh_movimentacao) as me
   upper(oat.no_oficio) similar to '%TRABALHISTA%' then 'Misto'
   
   when upper(oat.no_oficio) similar to '%ESPECIALIZADO%' and
-  upper(oat.no_oficio) similar to '%C�VEL%' and
-  upper(oat.no_oficio) similar to '%PREVIDENCI�RIO%' then 'ESPECIALIZADO C�VEL E PREVIDENCI�RIO'
+  upper(oat.no_oficio) similar to '%CÍVEL%' and
+  upper(oat.no_oficio) similar to '%PREVIDENCIÁRIO%' then 'ESPECIALIZADO CÍVEL E PREVIDENCIÁRIO'
   
   when upper(oat.no_oficio) similar to '%ESPECIALIZADO%' and
   upper(oat.no_oficio) similar to '%CRIMINAL%' and
-  upper(oat.no_oficio) similar to '%PREVIDENCI�RIO%' then 'ESPECIALIZADO CRIMINAL E PREVIDENCI�RIO'
+  upper(oat.no_oficio) similar to '%PREVIDENCIÁRIO%' then 'ESPECIALIZADO CRIMINAL E PREVIDENCIÁRIO'
   
-  when upper(oat.no_oficio) similar to '%C�VEL%' then 'C�vel'
+  when upper(oat.no_oficio) similar to '%CÍVEL%' then 'Cível'
   when upper(oat.no_oficio) similar to '%MILITAR%' then 'Militar'
-  when upper(oat.no_oficio) similar to '%PREVIDENCI�RIO%' then 'Previdenci�rio'
-  when upper(oat.no_oficio) similar to '%PREVIDENCIARIO%' then 'Previdenci�rio'
+  when upper(oat.no_oficio) similar to '%PREVIDENCIÁRIO%' then 'Previdenciário'
+  when upper(oat.no_oficio) similar to '%PREVIDENCIARIO%' then 'Previdenciário'
   when upper(oat.no_oficio) similar to '%CRIMINAL%' then 'Criminal'
-  when upper(oat.no_oficio) similar to '%PENAL%' then 'Execu��o Penal'
-  when upper(oat.no_oficio) similar to '%EXECU��O FISCAL%' then 'EXECU��O FISCAL'
-  when upper(oat.no_oficio) similar to '%MIGRA��ES%' then 'C�vel'
+  when upper(oat.no_oficio) similar to '%PENAL%' then 'Execução Penal'
+  when upper(oat.no_oficio) similar to '%EXECUÇÃO FISCAL%' then 'EXECUÇÃO FISCAL'
+  when upper(oat.no_oficio) similar to '%MIGRAÇÕES%' then 'Cível'
   when upper(oat.no_oficio) similar to '%TRABALHISTA%' then 'Trabalhista'
   
   when upper(oat.no_oficio) similar to '%DIREITOS HUMANOS%' and
@@ -96,7 +102,7 @@ q_pretensao <- "SELECT 	distinct EXTRACT (MONTH FROM rlpm.dh_movimentacao) as me
   when upper(oat.no_oficio) similar to '%HUMANOS%'then 'DRDH 2a Categoria'
   when upper(oat.no_oficio) similar to '%REGIONAL%' then '1a Categoria'
   when upper(u.no_unidade) similar to '%CATEGORIA ESPECIAL%' then 'Categoria Especial'
-  when upper(u.no_unidade) similar to '%C�MARAS%' then 'C�maras'
+  when upper(u.no_unidade) similar to '%CÂMARAS%' then 'Câmaras'
   when upper(u.no_unidade) similar to '%TESTE%' then 'Unidade Teste'	
   when upper(u.no_unidade) similar to '%AASTF%' then 'AASTF'
   when upper(u.no_unidade) similar to '%DPU EMERGENCIAL%' then 'DPU Emergencial'
