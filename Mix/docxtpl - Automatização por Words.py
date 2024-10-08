@@ -8,7 +8,7 @@ os.chdir('C:/Users/luiz.graciano/Desktop/Desafio - Gustavo')
 
 import pandas as pd
 
-path = 'C:/Users/luiz.graciano/Desktop/Desafio - Gustavo/NOMES BANCA.xlsx'
+path = 'Caminho' # Usei como exemplo uma planilha.
 
 dt = pd.read_excel(path) #base de dados
 
@@ -29,7 +29,7 @@ from docx2pdf import convert
 
 ##salvar arquivos##
 
-doc = DocxTemplate('Declaração - INSS_22 - Heteroidentificação.docx')
+doc = DocxTemplate('Arquivo.docx')
 
 for i in range (len(nomes)):
 
@@ -43,7 +43,7 @@ for i in range (len(nomes)):
 
     doc.render(context)
 
-    os.chdir('C:/Users/luiz.graciano/Desktop/Desafio - Gustavo/declarações')
+    os.chdir('./declarações')
 
     doc.save(f'{nome}.docx')
 
