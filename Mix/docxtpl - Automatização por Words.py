@@ -47,6 +47,6 @@ for i in range (len(nomes)):
 
     doc.save(f'{nome}.docx')
 
-    convert(f'{nome}.docx',f'{nome}.pdf')  #tranformar em pdf sem perder formatação -- Demora pra um caralho - quem fez, fez merda.
+    convert(f'{nome}.docx',f'{nome}.pdf')  #tranformar em pdf sem perder formatação -- Processo Lento.
 
     os.chdir('C:/Users/luiz.graciano/Desktop/Desafio - Gustavo')
